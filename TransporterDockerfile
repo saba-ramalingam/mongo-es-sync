@@ -1,0 +1,6 @@
+FROM quay.io/compose/transporter:v0.5.0
+
+WORKDIR /home/transporter
+COPY transport/* ./
+
+CMD ["transporter" , "run", "-log.level", "debug", "pipeline.js"]

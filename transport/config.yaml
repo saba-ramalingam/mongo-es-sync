@@ -1,0 +1,10 @@
+nodes:
+  source-flavour-mongo:
+    type: mongo
+    uri: mongodb://mongodb://mongodb:27017/flavour_db
+    namespace: flavour_db.comments
+    tail : true
+  dest-flavour-es:
+    type: elasticsearch
+    uri: http:/elastic-search:9200/
+    namespace: flavour.comments
