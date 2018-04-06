@@ -58,7 +58,7 @@ docker service create \
   --network flavournw \
   --mount type=volume,source=elastic-search-data,target=/usr/share/elasticsearch/data \
   --detach=false \
-  docker.elastic.co/elasticsearch/elasticsearch:6.0.0
+  docker.elastic.co/elasticsearch/elasticsearch:5.6.8
 echo "Done"
 
 echo "--------------------------"
@@ -68,7 +68,10 @@ docker service create \
   --name mongo-es-transporter \
   --network flavournw \
   --detach=false \
-  flavour/transporter:0.0.4
+  --mount type=bind,source=/var/log,target=/var/log \
+  --env MONGO=mongodb \
+  --env ELASTICSEARCH=http://elastic:changeme@elastic-search \
+  yeasy/mongo-connector
 
 echo "Done"
 
