@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Run mongodb replication set
-
+# Set the vm size
+sudo sysctl -w vm.max_map_count=262144
 ./createDockerVolumes.sh
 echo "Setting up Mongo Primary Node..."
 docker service create \
@@ -64,11 +65,13 @@ echo "Done"
 echo "--------------------------"
 echo "Starting Transporter"
 echo "--------------------------"
+work_dir=`pwd`
 docker service create \
   --name mongo-es-transporter \
   --network flavournw \
   --detach=false \
   --mount type=bind,source=/var/log,target=/var/log \
+  --mount type=bind,source=$work_dir/mongo-connector-startup.sh,target=/tmp/startup.sh \
   --env MONGO=mongodb \
   --env ELASTICSEARCH=http://elastic:changeme@elastic-search \
   yeasy/mongo-connector
